@@ -44,19 +44,30 @@
               <Icon type="arrow-down-b" color="#fff"></Icon>
             </a>
             <Dropdown-menu slot="list">
-              <Dropdown-item><Icon type="person"></Icon> 帐号信息</Dropdown-item>
-              <Dropdown-item><Icon type="android-settings"></Icon> 设置</Dropdown-item>
-              <Dropdown-item><Icon type="log-out"></Icon> 注销</Dropdown-item>
+              <Dropdown-item>
+                <Icon type="person"></Icon>
+                帐号信息
+              </Dropdown-item>
+              <Dropdown-item>
+                <Icon type="android-settings"></Icon>
+                设置
+              </Dropdown-item>
+              <Dropdown-item>
+                <Icon type="log-out"></Icon>
+                注销
+              </Dropdown-item>
             </Dropdown-menu>
           </Dropdown>
         </div>
       </div>
     </div>
-    <div class="content"></div>
+    <vcontent></vcontent>
   </div>
 </template>
 <script>
+  import vcontent from '@/components/content/content'
   export default {
+    components: {vcontent},
     data () {
       return {
         q: '',
@@ -91,9 +102,11 @@
       },
       searchFull (q) {
         if (q !== '') {
-          this.loading = true /* 显示加载中... */
+          this.loading = true
+          /* 显示加载中... */
           setTimeout(() => {
-            this.loading = false /* 关闭加载中... */
+            this.loading = false
+            /* 关闭加载中... */
             this.options = this.list.filter(item => item.value.indexOf(q) > -1)
           }, 200)
         } else {
@@ -101,7 +114,8 @@
         }
       },
       tabClick (name) {
-        alert(name) /* 标签名 */
+        this.$Message.info(name)
+        /* 标签名 */
       }
     },
     computed: {
@@ -119,55 +133,56 @@
   }
 </script>
 <style lang="stylus">
-html,body
-  height 100%
-  min-width 980px
-  .container
-    position relative
-    width 100%
+  html, body
     height 100%
-    background #eee
-    .header
-      display flex
-      flex-wrap nowrap
-      align-items center
-      height 50px
-      background #262626
-      .logo-wrapper
-        flex 0 1 150px
-        padding-left 20px
-      .search-wrapper
-        flex 0 1 200px
-        padding-left 20px
-      .other-wrapper
-        flex 1
+    min-width 980px
+    .container
+      position relative
+      width 100%
+      height 100%
+      background #eee
+      overflow hidden
+      .header
         display flex
         flex-wrap nowrap
         align-items center
-        margin 0 20px
-        text-align right
-        .tab-wrapper
-          flex 1
-          margin 11px 20px 0 20px
-          .ivu-tabs
-            color #fff
-            .ivu-tabs-bar
-              border-bottom none
-        .notify-wrapper
-          flex 0
-          padding-right 10px
-          .ivu-badge-dot
-            box-shadow 0 0 0 1px #ed3f14
-        .user-wrapper
+        height 50px
+        background #262626
+        .logo-wrapper
+          flex 0 1 150px
           padding-left 20px
-          text-align left
-          .user-headimg
-            width 30px
-            height 30px
-            border-radius 50%
-            vertical-align middle
-          .user-text
-            padding 0 5px
-            color #fff
+        .search-wrapper
+          flex 0 1 200px
+          padding-left 20px
+        .other-wrapper
+          flex 1
+          display flex
+          flex-wrap nowrap
+          align-items center
+          margin 0 20px
+          text-align right
+          .tab-wrapper
+            flex 1
+            margin 11px 20px 0 20px
+            .ivu-tabs
+              color #fff
+              .ivu-tabs-bar
+                border-bottom none
+          .notify-wrapper
+            flex 0
+            padding-right 10px
+            .ivu-badge-dot
+              box-shadow 0 0 0 1px #ed3f14
+          .user-wrapper
+            padding-left 20px
+            text-align left
+            .user-headimg
+              width 30px
+              height 30px
+              border-radius 50%
+              vertical-align middle
+            .user-text
+              padding 0 5px
+              color #fff
 </style>
 
