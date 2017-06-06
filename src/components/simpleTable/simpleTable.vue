@@ -1,7 +1,7 @@
 <template>
   <div class="sTable-wrapper">
     <Row>
-      <i-col span="3">
+      <i-col span="4">
         <div class="query-card">
           <Card :bordered="true">
             <span slot="title">查询条件</span>
@@ -24,11 +24,11 @@
               </Form-item>
               <Form-item label="选择日期">
                   <Form-item prop="beginTime">
-                    <Date-picker type="date" placeholder="开始日期" v-model="formValidate.beginTime"></Date-picker>
+                    <Date-picker placement="bottom" type="datetime" placeholder="开始日期" v-model="formValidate.beginTime" clearable></Date-picker>
                   </Form-item>
                   -
                   <Form-item prop="endTime">
-                    <Time-picker type="date" placeholder="结束时间" v-model="formValidate.endTime"></Time-picker>
+                    <Date-picker placement="bottom" type="datetime" placeholder="结束时间" v-model="formValidate.endTime" clearable></Date-picker>
                   </Form-item>
               </Form-item>
               <Form-item label="性别" prop="gender">
@@ -56,16 +56,17 @@
           </Card>
         </div>
       </i-col>
-      <i-col span="21">
+      <i-col span="20">
         <div class="content-card">
           <Button-group>
             <Button type="success" icon="plus">添加</Button>
             <Button type="info" icon="edit">编辑</Button>
             <Button type="error" icon="close">删除</Button>
           </Button-group>
+          <Page class="pageBar" size="small" :total="100" show-total show-elevator show-sizer></Page>
         </div>
         <div class="content-table">
-          <Table :height="tableHeight" :row-class-name="TheadClass" :data="data" :columns="columns" border></Table>
+          <Table @on-select="selectOneEvent" @on-select-all="selectAllEvent" :height="tableHeight" :data="data" :columns="columns" border></Table>
         </div>
       </i-col>
     </Row>
@@ -78,6 +79,11 @@
     data () {
       return {
         columns: [
+          {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+          },
           {
             title: '姓名',
             key: 'name'
@@ -231,6 +237,13 @@
       },
       handleReset (name) {
         this.$refs[name].resetFields()
+      },
+      selectOneEvent (selection, row) {
+        console.log(selection)
+        console.log(row)
+      },
+      selectAllEvent (selection) {
+        console.log(selection)
       }
     }
   }
@@ -241,6 +254,8 @@
     width 100%
     height 100%
     .query-card
+      display inline-block
+      vertical-align top
       height 100%
       padding 0 5px 5px 5px
       .ivu-card
@@ -250,6 +265,11 @@
           overflow auto
     .content-card
       margin-bottom 10px
+      .pageBar
+        display inline-block
+        vertical-align top
+        float right
+        padding-right 10px
     .content-table
       padding-right 10px
 
