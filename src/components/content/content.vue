@@ -2,8 +2,8 @@
     <div class="content">
       <div class="content-wrapper">
         <Row>
-          <i-col span="8">
-            <Menu @on-select="selectMenu" theme="light" style="overflow: auto">
+          <i-col span="3">
+            <Menu @on-select="selectMenu" theme="light" width="auto" style="overflow: auto">
               <Submenu name="1">
                 <template slot="title">
                   <Icon type="ios-paper"></Icon>
@@ -56,6 +56,15 @@
               </Submenu>
             </Menu>
           </i-col>
+          <i-col span="21" style="background: #fff">
+            <div class="content-frame tabs-style">
+              <Tabs type="card" closable extra>
+                <Tab-pane icon="ionic" name="控制面板" label="控制面板"><simple-table></simple-table></Tab-pane>
+                <Tab-pane v-for="menu in menus" :key="menu.id" :label="menu.name" :icon="menu.icon">
+                </Tab-pane>
+              </Tabs>
+            </div>
+          </i-col>
         </Row>
       </div>
       <div class="footer-wrapper">2017 &copy; Exotic</div>
@@ -65,8 +74,19 @@
 <script>
   import {xhr} from '@/common/js/utils'
   import ICol from '../../../node_modules/iview/src/components/grid/col'
+  import SimpleTable from '@/components/simpleTable/simpleTable'
   export default {
-    components: {ICol},
+    components: {
+      ICol,
+      'simple-table': SimpleTable
+    },
+    data () {
+      return {
+        menus: [{'id': 1, 'name': '标签1', 'icon': 'person', 'url': 'https://baidu.com'},
+          {'id': 2, 'name': '标签2', 'icon': 'person', 'url': 'https://baidu.com'},
+          {'id': 3, 'name': '标签3', 'icon': 'person', 'url': 'https://baidu.com'}]
+      }
+    },
     created () {
       this.loadMenu()
     },
@@ -78,7 +98,11 @@
           })
       },
       selectMenu (name) {
-        this.$Message.info(name)
+//        this.$Message.info(name)
+        this.menus.push({'id': 4, 'name': name, 'icon': 'person', 'url': 'https://baidu.com'})
+      },
+      addTab () {
+        this.tabs
       }
     }
   }
@@ -96,6 +120,32 @@
       height 100%
       padding-bottom 50px
       overflow hidden
+      .content-frame
+        width 100%
+        height 100%
+        padding 0 0 45px 0
+        .ivu-tabs
+          height 100%
+          .ivu-tabs-content
+            height 100%
+            padding-bottom 45px
+        .content-iframe
+          position absolute
+          border 2px solid #000
+      .tabs-style > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab
+        border-radius: 0
+        background: #fff
+      .tabs-style > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active
+        border-top: 1px solid #3399ff
+      .tabs-style > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active:before
+        content: ''
+        display: block
+        width: 100%
+        height: 1px
+        background: #3399ff
+        position: absolute
+        top: 0
+        left: 0
       .ivu-row
         height 100%
         .ivu-col

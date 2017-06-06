@@ -1,7 +1,0 @@
-{
-  "code" : "000",
-  "data" : [
-    {"id":1,"name":"用户管理","url":"http://1111.jkpj","children":[{"id":1,"name":"用户查询","url":"http://1111.jkpj"},{"id":1,"name":"用户删除","url":"http://1111.jkpj"},{"id":1,"name":"用户更改","url":"http://1111.jkpj"}]},
-    {"id":2,"name":"角色管理","url":"http://1111.jkpj","children":[{"id":2,"name":"用户查询","url":"http://1111.jkpj"},{"id":2,"name":"用户删除","url":"http://1111.jkpj"},{"id":2,"name":"用户更改","url":"http://1111.jkpj"}]}
-  ]
-}
