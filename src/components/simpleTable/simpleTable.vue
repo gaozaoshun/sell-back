@@ -62,11 +62,12 @@
             <Button type="success" icon="plus">添加</Button>
             <Button type="info" icon="edit">编辑</Button>
             <Button type="error" icon="close">删除</Button>
+            <Button type="primary" icon="ios-download" @click="exportCVS">导出CSV</Button>
           </Button-group>
-          <Page class="pageBar" size="small" :total="100" show-total show-elevator show-sizer></Page>
+          <Page class="pageBar" :page-size-opts="pageSizeOpts"  :total="totalPage"  @on-change="changePage" @on-page-size-change="changePageSize" size="small" show-total show-elevator show-sizer></Page>
         </div>
         <div class="content-table">
-          <Table @on-select="selectOneEvent" @on-select-all="selectAllEvent" :height="tableHeight" :data="data" :columns="columns" border></Table>
+          <Table ref="table" @on-select="selectOneEvent" @on-select-all="selectAllEvent" :height="tableHeight" :data="data" :columns="columns" size="small" border></Table>
         </div>
       </i-col>
     </Row>
@@ -78,6 +79,8 @@
     components: {ICol},
     data () {
       return {
+        totalPage: 9999,
+        pageSizeOpts: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         columns: [
           {
             type: 'selection',
@@ -86,11 +89,31 @@
           },
           {
             title: '姓名',
-            key: 'name'
+            key: 'name',
+            sortable: true
           },
           {
             title: '年龄',
-            key: 'age'
+            key: 'age',
+            sortable: true,
+            filters: [
+              {
+                label: '大于25岁',
+                value: 1
+              },
+              {
+                label: '小于25岁',
+                valus: 2
+              }
+            ],
+            filterMultiple: false,
+            filterMethod (value, row) {
+              if (value === 1) {
+                return row.age > 25
+              } else if (value === 2) {
+                return row.age < 25
+              }
+            }
           },
           {
             title: '地址',
@@ -102,66 +125,6 @@
             name: '王小明',
             age: 18,
             address: '北京市朝阳区芍药居'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
           },
           {
             name: '张小刚',
@@ -244,6 +207,45 @@
       },
       selectAllEvent (selection) {
         console.log(selection)
+      },
+      exportCVS () {
+        this.$refs.table.exportCsv({
+          filename: 'simpleTable', /* 文件名，默认为 table.csv */
+          original: false, /* 是否导出为原始数据，默认为 true */
+          noHeader: false, /* 不显示表头，默认为 false */
+          columns: this.columns.filter((col, index) => index < 2 && index > 0), /* 自定义导出的列数据 */
+          data: this.data.filter((row, index) => index < 2) /* 自定义导出的行数据 */
+          /* 说明：columns 和 data 需同时声明，声明后将导出指定的数据，建议列数据有自定义render时，可以根据需求自定义导出内容 */
+        })
+      },
+      changePage (currentPage) {
+        console.log(currentPage)
+        this.data = [
+          {
+            name: 'gggg',
+            age: 18,
+            address: '北京市朝阳区芍药居'
+          },
+          {
+            name: 'zzzz',
+            age: 25,
+            address: '北京市海淀区西二旗'
+          },
+          {
+            name: 'ssss',
+            age: 30,
+            address: '上海市浦东新区世纪大道'
+          },
+          {
+            name: 'qqqq',
+            age: 26,
+            address: '深圳市南山区深南大道'
+          }
+        ]
+      },
+      changePageSize (pageSize) {
+        console.log(pageSize)
+        this.totalPage = 5555
       }
     }
   }
